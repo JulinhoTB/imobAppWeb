@@ -6,7 +6,7 @@ import org.mapstruct.factory.Mappers;
 import br.com.imobApp.imobAppWeb.dtos.ImovelDTO;
 import br.com.imobApp.imobAppWeb.models.EntImovel;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface ImovelMapper {
 	
 	ImovelMapper INSTANCE = Mappers.getMapper(ImovelMapper.class);

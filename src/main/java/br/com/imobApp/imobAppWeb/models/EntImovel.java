@@ -24,6 +24,8 @@ public class EntImovel {
 	private BigDecimal valor;
 	@Column(name="CP_AREA")
 	private double area;
+	@Column(name="CP_SITUACAO")
+	private int situacao;
 	@Column(name="CP_DT_INCLUSAO", nullable = false)
 	private LocalDateTime dt_inclusao;
 	
@@ -50,6 +52,12 @@ public class EntImovel {
 	}
 	public void setArea(double area) {
 		this.area = area;
+	}
+	public int getSituacao() {
+		return situacao;
+	}
+	public void setSituacao(int situacao) {
+		this.situacao =  situacao;
 	}
 	public LocalDateTime getDt_inclusao() {
 		return dt_inclusao;

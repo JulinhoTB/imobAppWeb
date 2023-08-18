@@ -1,6 +1,7 @@
 package br.com.imobApp.imobAppWeb.dtos;
 
 public class ImobiliariaDTO {
+	
 	private String nome;
 	private String cnpj;
 	
