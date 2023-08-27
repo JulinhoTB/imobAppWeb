@@ -14,7 +14,7 @@ import br.com.imobApp.imobAppWeb.exceptions.ImovelNotFoundException;
 import br.com.imobApp.imobAppWeb.services.ImovelService;
 
 @RestController
-@RequestMapping (value="/imoveis")
+@RequestMapping (value="api/v1/imoveis")
 public class ImovelController {
 	
 	@Autowired

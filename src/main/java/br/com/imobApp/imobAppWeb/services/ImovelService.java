@@ -12,8 +12,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.imobApp.imobAppWeb.comum.mappers.ImovelMapper;
 import br.com.imobApp.imobAppWeb.dtos.ImovelDTO;
-import br.com.imobApp.imobAppWeb.models.EntImovel;
 import br.com.imobApp.imobAppWeb.exceptions.ImovelNotFoundException;
+import br.com.imobApp.imobAppWeb.models.EntImovel;
 import br.com.imobApp.imobAppWeb.repositories.ImovelRepository;
 
 @Service
@@ -33,19 +33,10 @@ public class ImovelService {
 		}catch(ImovelNotFoundException e) {
 			String json = objectMapper.writeValueAsString(imv);
 			LOG.error("ImovelNotFoundException: ["+e.getMessage()+"]["+json+"]");
-			//ResponseEntity<ImovelDTO> imovel = new ResponseEntity<ImovelDTO>(HttpStatus.NOT_FOUND);
-			//return imovel;
 		}
 		ResponseEntity<ImovelDTO> imovel = new ResponseEntity<ImovelDTO>(imv, HttpStatus.OK);
 		return imovel;
 	}
 
 	
-	
-	
-//	Cliente cliente = new Cliente();
-//	cliente.setId(1L);
-//	cliente.setNome("Alice");
-//
-//	ClienteDTO clienteDTO = ClienteMapper.INSTANCE.clienteToClienteDTO(cliente);
 }

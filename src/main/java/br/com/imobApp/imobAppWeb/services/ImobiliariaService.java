@@ -9,9 +9,10 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import br.com.imobApp.imobAppWeb.comum.exceptions.ImobiliariaExistenteException;
 import br.com.imobApp.imobAppWeb.comum.mappers.ImobiliariaMapper;
 import br.com.imobApp.imobAppWeb.dtos.CadastrarImobiliariaRequestDTO;
-import br.com.imobApp.imobAppWeb.dtos.ImobiliariaDTO;
+import br.com.imobApp.imobAppWeb.dtos.ResponseImobiliariaDTO;
 import br.com.imobApp.imobAppWeb.models.EntImobiliaria;
 import br.com.imobApp.imobAppWeb.repositories.ImobiliariaRepository;
 
@@ -24,23 +25,22 @@ public class ImobiliariaService {
 		
 		ObjectMapper objectMapper = new ObjectMapper();	
 
-		public ImobiliariaDTO cadastrarImobiliaria(CadastrarImobiliariaRequestDTO request) {
+		public ResponseImobiliariaDTO cadastrarImobiliaria(CadastrarImobiliariaRequestDTO request) {
 			
-			ImobiliariaDTO response = new ImobiliariaDTO();
-			try {
-				EntImobiliaria imob = new EntImobiliaria();
-				imob.setCnpj(request.getCnpj());
-				imob.setNome(request.getNome());
-				imob.setDt_inclusao(LocalDateTime.now());
-				
-				imob = imobiliariaRepository.save(imob);
-				LOG.info("Imobiliária Criada: "+ imob.getNome()+imob.getCnpj());
-				
-				response = ImobiliariaMapper.INSTANCE.entToDTO(imob);
-			} catch (Exception e) {
-				e.printStackTrace();
+			ResponseImobiliariaDTO responseImob = new ResponseImobiliariaDTO();
+			EntImobiliaria entImob = imobiliariaRepository.findByCnpj(request.getCnpj());
+			if(entImob!=null) {
+				throw new ImobiliariaExistenteException("Já existe cadastro para a imobiliária de CNPJ: "+request.getCnpj());
 			}
-			return response;
+			
+			entImob = ImobiliariaMapper.INSTANCE.dtoToEnt(request);
+			entImob.setDt_inclusao(LocalDateTime.now());
+			
+			entImob = imobiliariaRepository.save(entImob);
+			LOG.info("Imobiliária Criada: "+ entImob.getNome()+entImob.getCnpj());
+			
+			responseImob = ImobiliariaMapper.INSTANCE.entToDTO(entImob);
+			return responseImob;
 		}
 
 

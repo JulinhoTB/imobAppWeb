@@ -18,6 +18,15 @@ public class EntImobiliaria {
 	@Column(name="CP_DT_INCLUSAO", nullable = false)
 	private LocalDateTime dt_inclusao;
 	
+	public EntImobiliaria(String cnpj, String nome) {
+		this.cnpj = cnpj;
+		this.nome = nome;
+	}
+	
+	public EntImobiliaria() {
+		
+	}
+	
 	public String getNome() {
 		return nome;
 	}
