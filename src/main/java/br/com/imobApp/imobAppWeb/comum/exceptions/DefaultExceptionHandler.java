@@ -14,6 +14,27 @@ public class DefaultExceptionHandler {
 	@Autowired
     private HttpServletRequest request;
 	
+	@ExceptionHandler(ImobiliariaNotFoundException.class)
+	public ResponseEntity<DetalhesExcecao> handle (ImobiliariaNotFoundException e) {
+		StackTraceElement[] stackTrace = e.getStackTrace();
+		String printStackTrace = "";
+		for (StackTraceElement stElmnt : stackTrace) {
+			
+			printStackTrace +=stElmnt.getClassName()+stElmnt.getMethodName()+";";
+			if(stElmnt.getClassName().contains("controllers")) {
+				break;
+			}
+		}
+		
+		DetalhesExcecao detalhes = new DetalhesExcecao(
+				e.getMessage(), 
+				HttpStatus.NOT_FOUND.value(), 
+				request.getRequestURI().toString(), 
+				printStackTrace);
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(detalhes);
+		
+	}
+	
 	@ExceptionHandler(ImobiliariaExistenteException.class)
 	public ResponseEntity<DetalhesExcecao> handleImobiliariaExistenteException (ImobiliariaExistenteException e) {
 		StackTraceElement[] stackTrace = e.getStackTrace();

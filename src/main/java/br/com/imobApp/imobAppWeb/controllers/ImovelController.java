@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
+import br.com.imobApp.imobAppWeb.comum.exceptions.ImobiliariaNotFoundException;
 import br.com.imobApp.imobAppWeb.dtos.ImovelDTO;
-import br.com.imobApp.imobAppWeb.exceptions.ImovelNotFoundException;
 import br.com.imobApp.imobAppWeb.services.ImovelService;
 
 @RestController
@@ -21,7 +21,7 @@ public class ImovelController {
 	private ImovelService imovelService;
 		
 	@GetMapping("/id")
-	public ResponseEntity<ImovelDTO>  getImovelById(@RequestHeader("user-id") Long userId) throws ImovelNotFoundException, JsonProcessingException {
+	public ResponseEntity<ImovelDTO>  getImovelById(@RequestHeader("user-id") Long userId) throws ImobiliariaNotFoundException, JsonProcessingException {
 		return imovelService.findById(userId);
 
 	}

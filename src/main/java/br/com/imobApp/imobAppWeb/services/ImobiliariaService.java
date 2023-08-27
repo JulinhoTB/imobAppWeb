@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.swing.Spring;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.imobApp.imobAppWeb.comum.exceptions.ImobiliariaExistenteException;
+import br.com.imobApp.imobAppWeb.comum.exceptions.ImobiliariaNotFoundException;
 import br.com.imobApp.imobAppWeb.comum.mappers.ImobiliariaMapper;
 import br.com.imobApp.imobAppWeb.dtos.CadastrarImobiliariaRequestDTO;
 import br.com.imobApp.imobAppWeb.dtos.ResponseImobiliariaDTO;
@@ -45,12 +48,6 @@ public class ImobiliariaService {
 			return imobs;
 		}
 		
-		
-		
-		
-		
-		
-
 		public ResponseImobiliariaDTO cadastrarImobiliaria(CadastrarImobiliariaRequestDTO request) {
 			
 			ResponseImobiliariaDTO responseImob = new ResponseImobiliariaDTO();
@@ -67,6 +64,28 @@ public class ImobiliariaService {
 			
 			responseImob = ImobiliariaMapper.INSTANCE.entToDTO(entImob);
 			return responseImob;
+		}
+		
+		public ResponseImobiliariaDTO removerImobiliaria(String cnpj) {
+			if(cnpj!=null && cnpj!="") {
+				EntImobiliaria entImob = imobiliariaRepository.findByCnpj(cnpj);
+				if(entImob!=null) {
+					ResponseImobiliariaDTO responseImob = new ResponseImobiliariaDTO();
+					responseImob = ImobiliariaMapper.INSTANCE.entToDTO(entImob);
+					imobiliariaRepository.delete(entImob);
+					LOG.warn("Imobiliária removida: "+ entImob.getNome()+entImob.getCnpj());
+					
+					return responseImob;
+				}
+				throw new ImobiliariaNotFoundException("A imobiliária com cnpj nº {"+cnpj+"} não foi encontrada no sistema");
+			}
+			
+			return null;			
+		}
+		
+		public ResponseImobiliariaDTO alterarImobiliaria(String cnpj) {
+			
+			return null;
 		}
 
 
