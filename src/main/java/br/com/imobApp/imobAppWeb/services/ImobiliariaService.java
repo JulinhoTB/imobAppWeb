@@ -1,6 +1,8 @@
 package br.com.imobApp.imobAppWeb.services;
 
 import java.time.LocalDateTime;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +26,30 @@ public class ImobiliariaService {
 		ImobiliariaRepository imobiliariaRepository;
 		
 		ObjectMapper objectMapper = new ObjectMapper();	
+		
+		
+		
+		
+		public List<ResponseImobiliariaDTO> listarImobiliarias() {
+			var imobiliarias = imobiliariaRepository.findAll();
+			List<ResponseImobiliariaDTO> imobs = new LinkedList<>();
+			
+			if(imobiliarias.isEmpty()) {
+				return null;
+			}
+			
+			
+			imobiliarias.forEach(imob ->imobs.add(ImobiliariaMapper.INSTANCE.entToDTO(imob)));
+
+			
+			return imobs;
+		}
+		
+		
+		
+		
+		
+		
 
 		public ResponseImobiliariaDTO cadastrarImobiliaria(CadastrarImobiliariaRequestDTO request) {
 			
